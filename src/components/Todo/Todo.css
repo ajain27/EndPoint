@@ -1,0 +1,13 @@
+.todoList {
+  width: 50% !important;
+  margin: auto !important;
+  padding: 5px;
+}
+
+.todo {
+  margin: 5px;
+  border: 1px solid red;
+  text-align: left;
+  height: 35px;
+  display: flex !important;
+}
