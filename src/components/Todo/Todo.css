@@ -1,13 +1,27 @@
 .todoList {
-  width: 50% !important;
+  width: 25% !important;
   margin: auto !important;
   padding: 5px;
+  /* border: 1px solid green; */
 }
 
 .todo {
   margin: 5px;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   text-align: left;
   height: 35px;
   display: flex !important;
+}
+
+.date {
+  border: 1px solid black;
+  text-align: center;
+  width: 15%;
+  vertical-align: middle;
+  position: relative;
+  height: 25px;
+}
+
+.desc {
+  margin-left: 5px;
 }

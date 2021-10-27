@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Container } from "react-bootstrap";
 import Todo from "./Todo";
 
 export default function TodoList() {
@@ -14,31 +13,40 @@ export default function TodoList() {
       "PMAK-5ef63db179d23c004de50751-10300736bc550d2a891dc4355aab8d7a5c",
   };
 
-  async function getTodos() {
-    const listOfTodos = await axios.get(URL, { headers });
+  function getTodos() {
+    const listOfTodos = axios.get(URL, { headers });
     setTodos(listOfTodos.data);
   }
 
   function formatTodos() {
     getTodos();
-    return todos?.map((d) => {
-      const formattedDate = d.dueDate;
-      d["dueDate"] = new Date(formattedDate).toLocaleDateString().split("T")[0];
+    if (todos) {
+      todos.map((d) => {
+        if (d.dueDate) {
+          const formattedDate = d.dueDate;
+          d["dueDate"] = new Date(formattedDate)
+            .toLocaleDateString()
+            .split("T")[0];
+        }
+        return todos;
+      });
       setFormattedTodos(todos);
-    });
+    }
   }
 
   useEffect(() => {
     formatTodos();
-  }, []);
+  }, [todos]);
 
   return (
-    <Container>
-      {formattedTodos && (
+    <>
+      {(formattedTodos &&
+        formattedTodos.length > 0 &&
+        console.log("formattedTodos---", formattedTodos)) || (
         <div className="todoList">
           <Todo todos={formattedTodos} />
         </div>
       )}
-    </Container>
+    </>
   );
 }

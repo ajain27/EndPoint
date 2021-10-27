@@ -8,13 +8,15 @@ export default function Todo({ todos }) {
         todos.length > 0 &&
         todos.map((todo) => (
           <Row className="todo" key={todo.id}>
-            <Col>
+            <Col sm={9}>
               <input type="checkbox" className="checkbox" />
-              <label>{todo.description}</label>
+              <label className="desc">{todo.description}</label>
             </Col>
-            <Col className="date">
-              <label className="date">{todo.dueDate}</label>
-            </Col>
+            {todo.dueDate && (
+              <Col sm={3} className="date">
+                <label>{todo.dueDate}</label>
+              </Col>
+            )}
           </Row>
         ))}
     </>
