@@ -1,16 +1,27 @@
 .todoList {
   width: 25% !important;
-  margin: auto !important;
+  margin: 25px auto !important;
   padding: 5px;
-  /* border: 1px solid green; */
 }
 
 .todo {
   margin: 5px;
-  /* border: 1px solid red; */
   text-align: left;
   height: 35px;
   display: flex !important;
+}
+
+.overdue {
+  background-color: #f8d7da;
+}
+
+.completed {
+  text-decoration: line-through;
+  background-color: #d1e7dd;
+}
+
+.pending {
+  background-color: #e2e3e5;
 }
 
 .date {
@@ -24,4 +35,8 @@
 
 .desc {
   margin-left: 5px;
+}
+
+input[type="checkbox"]:checked + label.desc {
+  text-decoration: line-through;
 }
