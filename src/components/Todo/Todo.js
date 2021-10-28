@@ -6,54 +6,59 @@ import { Row, Col } from "react-bootstrap";
 export default function Todo({ todos, original }) {
   const [isOverDue, setIsOverdue] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
-  const [isPending, setIsPending] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
 
   const classNames = cx(styles.todo, {
     [styles.overdue]: isOverDue === true,
     [styles.completed]: isCompleted === true,
-    [styles.pending]: isPending === true,
   });
 
-  function handleTodos() {
-    isCheckboxSchecked();
-    original?.map((todo) => {
-      console.log(todo.isComplete);
-      const od = new Date(todo.dueDate);
-      if (
-        todo.dueDate &&
-        new Date(od.toDateString()) < new Date(new Date().toDateString()) &&
-        todo.isComplete === false
-      ) {
-        setIsOverdue(true);
-        setIsCompleted(false);
-        setIsPending(false);
-      } else if (
-        todo.dueDate &&
-        new Date(od.toDateString()) < new Date(new Date().toDateString()) &&
-        todo.isComplete === true
-      ) {
-        setIsOverdue(true);
-        setIsCompleted(true);
-        setIsPending(false);
-      } else {
-        setIsOverdue(false);
-      }
-      return isOverDue;
-    });
+  // function sortByDate(a, b) {
+  //   if (a.dueDate && b.dueDate) {
+  //     let d1 = new Date(a.dueDate);
+  //     let d2 = new Date(b.dueDate);
+  //     if (d1.getUTCMonth() > d2.getUTCMonth()) {
+  //       return 1;
+  //     } else if (d2.getUTCMonth() > d1.getUTCMonth()) {
+  //       return -1;
+  //     } else {
+  //       return d1.getUTCDate() - d2.getUTCDate();
+  //     }
+  //   }
+  // }
+
+  function sortByIsComplete(x, y) {
+    return x.isComplete === y.isComplete ? 0 : x.isComplete ? 1 : -1;
+  }
+  const sortedTodos = todos.sort(sortByIsComplete);
+
+  // const sortedData = todos.sort(sortByDate);
+  // console.log("final sorted data--", sortedData);
+
+  function getCompletedTodos() {
+    const completedTodos = todos.filter((td) => td.isComplete);
+    return completedTodos;
   }
 
-  function isCheckboxSchecked() {
-    const status = todos.map((td) => {
-      if (td.isComplete === true) {
-        setIsChecked(true);
-        return true;
-      } else {
-        setIsChecked(false);
-        return false;
+  function format(d) {
+    if (d.dueDate) {
+      const formattedDate = d.dueDate;
+      d["dueDate"] = new Date(formattedDate).toLocaleDateString().split("T")[0];
+    }
+  }
+
+  function handleTodos() {
+    getCompletedTodos();
+    todos?.map((todo, i) => {
+      // const od = new Date(todo.dueDate);
+      format(todo);
+      if (todo.isComplete === false) {
+        setIsOverdue(true);
+      } else if (todo.isComplete === true) {
+        setIsCompleted(true);
       }
+      return todos;
     });
-    return status;
   }
 
   function updateTodo(e, todo) {
@@ -75,21 +80,21 @@ export default function Todo({ todos, original }) {
   }
 
   useEffect(() => {
+    console.log("From the list--", todos);
     handleTodos();
   }, []);
 
   return (
     <div className={styles.todoList}>
-      {todos &&
-        todos.length > 0 &&
-        todos.map((todo) => (
+      {sortedTodos &&
+        sortedTodos.length > 0 &&
+        sortedTodos.map((todo) => (
           <Row className={classNames} key={todo.id}>
             <Col sm={9}>
               <input
                 type="checkbox"
                 checked={isChecked[todo]}
                 defaultChecked={todo.isComplete}
-                className={styles.checkbox}
                 onChange={(e) => updateTodo(e, todo)}
               />
               <label className={styles.desc}>{todo.description}</label>

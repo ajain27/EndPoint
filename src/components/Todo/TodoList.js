@@ -18,31 +18,17 @@ export default function TodoList() {
     await sleep(2000);
     const res = await fetch(URL, { headers });
     setTodos(await res.json());
-    const newTodos = [...todos];
-    if (newTodos && newTodos.length > 0) {
-      newTodos.map((d) => {
-        if (d.dueDate) {
-          const formattedDate = d.dueDate;
-          d["dueDate"] = new Date(formattedDate)
-            .toLocaleDateString()
-            .split("T")[0];
-        }
-        return newTodos;
-      });
-      setFormattedTodos(newTodos);
-    }
   };
-
   useEffect(() => {
     trackPromise(getTodos());
   }, []);
 
   return (
     <>
-      {formattedTodos && formattedTodos.length === 0 && promiseInProgress ? (
+      {todos && todos.length === 0 && promiseInProgress ? (
         "loading..."
       ) : (
-        <Todo todos={formattedTodos} original={todos} />
+        <Todo todos={todos} original={todos} />
       )}
     </>
   );

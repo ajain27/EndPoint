@@ -5,7 +5,9 @@
 }
 
 .todo {
+  display: flex;
   margin: 5px;
+  padding: 3px;
   text-align: left;
   height: 35px;
   display: flex !important;
@@ -16,7 +18,6 @@
 }
 
 .completed {
-  text-decoration: line-through;
   background-color: #d1e7dd;
 }
 
