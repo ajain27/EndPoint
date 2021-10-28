@@ -35,10 +35,10 @@ export default function Todo({ todos, original }) {
   // const sortedData = todos.sort(sortByDate);
   // console.log("final sorted data--", sortedData);
 
-  function getCompletedTodos() {
-    const completedTodos = todos.filter((td) => td.isComplete);
-    return completedTodos;
-  }
+  // function getCompletedTodos() {
+  //   const completedTodos = todos.filter((td) => td.isComplete);
+  //   return completedTodos;
+  // }
 
   function format(d) {
     if (d.dueDate) {
@@ -48,7 +48,7 @@ export default function Todo({ todos, original }) {
   }
 
   function handleTodos() {
-    getCompletedTodos();
+    // getCompletedTodos();
     todos?.map((todo, i) => {
       // const od = new Date(todo.dueDate);
       format(todo);
@@ -80,7 +80,6 @@ export default function Todo({ todos, original }) {
   }
 
   useEffect(() => {
-    console.log("From the list--", todos);
     handleTodos();
   }, []);
 

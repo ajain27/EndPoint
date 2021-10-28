@@ -5,7 +5,6 @@ import { usePromiseTracker, trackPromise } from "react-promise-tracker";
 
 export default function TodoList() {
   const [todos, setTodos] = useState([]);
-  const [formattedTodos, setFormattedTodos] = useState([]);
   const URL = "https://944ba3c5-94c3-4369-a9e6-a509d65912e2.mock.pstmn.io/get";
   const headers = {
     "X-Api-Key":
