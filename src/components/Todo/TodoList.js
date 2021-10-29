@@ -2,11 +2,16 @@
 import { useEffect, useState } from "react";
 import Todo from "./Todo";
 import { ClipLoader } from "react-spinners";
+import { css } from "@emotion/core";
 
 export default function TodoList() {
   const [todos, setTodos] = useState([]);
   const [showLoader, setShowLoader] = useState(true);
-  let [spinnerColor, setSpinnerColor] = useState("#00001e");
+  const override = css`
+    display: block;
+    margin: 0 auto;
+    color: #00001e;
+  `;
 
   const URL = "https://944ba3c5-94c3-4369-a9e6-a509d65912e2.mock.pstmn.io/get";
   const headers = {
@@ -19,29 +24,26 @@ export default function TodoList() {
     setTodos(await res.json());
   };
 
-  function sortByStatus(x, y) {
-    return x.isComplete === y.isComplete ? 0 : x.isComplete ? 1 : -1;
+  // sort by status - completed items to be listed at the bottom
+  function sortByDate(a, b) {
+    let d1 = new Date(a.dueDate);
+    let d2 = new Date(b.dueDate);
+    if (a.dueDate || b.dueDate) {
+      if (d1.getUTCFullYear() > d2.getUTCFullYear()) {
+        return 1;
+      } else if (d2.getUTCMonth() > d1.getUTCMonth()) {
+        return -1;
+      } else {
+        return d1.getUTCDate() - d2.getUTCDate();
+      }
+    }
   }
-  const sortedTodos = todos.sort(sortByStatus);
+  const sortedTodos = todos.sort(sortByDate); // getting the list of sorted todos
 
-  // function getInCompleteTodos() {
-  //   const completedTodos = todos.filter((td) => !td.isComplete);
-  //   return completedTodos;
-  // }
-
-  // function sortByDate(a, b) {
-  //   if (a.dueDate && b.dueDate) {
-  //     let d1 = new Date(a.dueDate);
-  //     let d2 = new Date(b.dueDate);
-  //     if (d1.getUTCMonth() > d2.getUTCMonth()) {
-  //       return 1;
-  //     } else if (d2.getUTCMonth() > d1.getUTCMonth()) {
-  //       return -1;
-  //     } else {
-  //       return d1.getUTCDate() - d2.getUTCDate();
-  //     }
-  //   }
-  // }
+  function sortByStatus(a, b) {
+    return a.isComplete === b.isComplete ? 0 : a.isComplete ? 1 : -1;
+  }
+  sortedTodos.sort(sortByStatus);
 
   useEffect(() => {
     setShowLoader(true);
@@ -54,7 +56,7 @@ export default function TodoList() {
   return (
     <>
       {sortedTodos && sortedTodos.length === 0 && showLoader ? (
-        <ClipLoader size={100} color={spinnerColor} />
+        <ClipLoader size={100} css={override} />
       ) : (
         sortedTodos.map((d) => {
           return (

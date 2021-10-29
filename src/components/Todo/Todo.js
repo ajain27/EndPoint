@@ -6,35 +6,16 @@ import { Row, Col } from "react-bootstrap";
 export default function Todo({ id, description, date, status }) {
   const [isOverDue, setIsOverdue] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [isPending, setIsPending] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
 
   const classNames = cx(styles.todo, {
     [styles.overdue]: isOverDue === true,
     [styles.completed]: isCompleted === true,
+    [styles.pending]: isPending === true,
   });
 
   const formattedDate = new Date(date).toLocaleDateString().split("T")[0];
-
-  // function sortByDate(a, b) {
-  //   if (a.dueDate && b.dueDate) {
-  //     let d1 = new Date(a.dueDate);
-  //     let d2 = new Date(b.dueDate);
-  //     if (d1.getUTCMonth() > d2.getUTCMonth()) {
-  //       return 1;
-  //     } else if (d2.getUTCMonth() > d1.getUTCMonth()) {
-  //       return -1;
-  //     } else {
-  //       return d1.getUTCDate() - d2.getUTCDate();
-  //     }
-  //   }
-  // }
-
-  // const sortedData = todos.sort(sortByDate);
-
-  // function getCompletedTodos() {
-  //   const completedTodos = todos.filter((td) => td.isComplete);
-  //   return completedTodos;
-  // }
 
   function updateTodo(e) {
     setIsChecked(e.target.checked);
@@ -57,8 +38,10 @@ export default function Todo({ id, description, date, status }) {
   useEffect(() => {
     if ((status && date) || (status && !date)) {
       setIsCompleted(true);
-    } else if ((!status && date) || (!status && !date)) {
+    } else if (!status && date) {
       setIsOverdue(true);
+    } else if (!status && !date) {
+      setIsPending(true);
     }
   }, []);
 

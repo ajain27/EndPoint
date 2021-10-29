@@ -1,5 +1,5 @@
 import axios from "axios";
 
-export function get(url) {
-  return axios.get(url);
+export function get(url, body?, headers?) {
+  return axios.get(url, body, headers);
 }
