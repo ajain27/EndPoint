@@ -50,7 +50,7 @@ export default function TodoList() {
   }, []);
 
   return (
-    <div className="main">
+    <>
       {sortedTodos && sortedTodos.length === 0 && promiseInProgress
         ? "loading..."
         : sortedTodos.map((d) => {
@@ -64,6 +64,6 @@ export default function TodoList() {
               />
             );
           })}
-    </div>
+    </>
   );
 }

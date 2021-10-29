@@ -6,13 +6,11 @@ import { Row, Col } from "react-bootstrap";
 export default function Todo({ id, description, date, status }) {
   const [isOverDue, setIsOverdue] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
-  const [isPending, setIsPending] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
 
   const classNames = cx(styles.todo, {
     [styles.overdue]: isOverDue === true,
     [styles.completed]: isCompleted === true,
-    [styles.pending]: isPending === true,
   });
 
   const formattedDate = new Date(date).toLocaleDateString().split("T")[0];
