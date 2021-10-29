@@ -1,7 +1,11 @@
+.main {
+  width: 100%;
+}
 .todoList {
-  width: 25% !important;
-  margin: 25px auto !important;
+  width: 50% !important;
+  margin: auto !important;
   padding: 5px;
+  /* border: 1px solid red; */
 }
 
 .todo {
@@ -40,4 +44,13 @@
 
 input[type="checkbox"]:checked + label.desc {
   text-decoration: line-through;
+}
+
+@media only screen and (max-width: 600px) {
+  .todoList {
+    width: 100% !important;
+    margin: auto !important;
+    padding: 5px;
+    /* border: 1px solid red; */
+  }
 }
