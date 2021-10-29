@@ -1,7 +1,7 @@
 .header {
   height: 50px;
-  background-color: #00001e;
-  color: white;
+  background-color: var(--header);
+  color: var(--white);
   text-align: left;
   text-transform: uppercase;
   margin: auto;
