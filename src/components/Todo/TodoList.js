@@ -24,26 +24,29 @@ export default function TodoList() {
     setTodos(await res.json());
   };
 
-  // sort by status - completed items to be listed at the bottom
   function sortByDate(a, b) {
     let d1 = new Date(a.dueDate);
     let d2 = new Date(b.dueDate);
-    if (a.dueDate || b.dueDate) {
-      if (d1.getUTCFullYear() > d2.getUTCFullYear()) {
-        return 1;
-      } else if (d2.getUTCMonth() > d1.getUTCMonth()) {
-        return -1;
-      } else {
-        return d1.getUTCDate() - d2.getUTCDate();
-      }
+    if (d1.getUTCFullYear() > d2.getUTCFullYear()) {
+      return 1;
+    } else if (d2.getUTCMonth() > d1.getUTCMonth()) {
+      return -1;
+    } else {
+      return d1.getUTCDate() - d2.getUTCDate();
     }
   }
-  const sortedTodos = todos.sort(sortByDate); // getting the list of sorted todos
 
-  function sortByStatus(a, b) {
-    return a.isComplete === b.isComplete ? 0 : a.isComplete ? 1 : -1;
-  }
-  sortedTodos.sort(sortByStatus);
+  const incompleteTodos = todos.filter((d) => !d.isComplete);
+  const completedTodos = todos.filter((d) => d.isComplete);
+  const incomepleTodosWithDate = incompleteTodos.filter((dd) => dd.dueDate);
+  const incomepleteTodosWithNoDate = incompleteTodos.filter(
+    (dd) => !dd.dueDate
+  );
+  incomepleTodosWithDate.sort(sortByDate); // sort by date for todos with date
+
+  const sortedTodos = incomepleTodosWithDate
+    .concat(incomepleteTodosWithNoDate)
+    .concat(completedTodos);
 
   useEffect(() => {
     setShowLoader(true);
